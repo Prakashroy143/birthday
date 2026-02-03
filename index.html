@@ -51,13 +51,31 @@
       to {transform: scale(1) rotateY(0);}
     }
 
-    img {
+    .photo-box{
+      position: relative;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .photo-box img{
       width:120px;
       height:120px;
       border-radius:50%;
       object-fit:cover;
       border:3px solid #ff4d6d;
-      margin-bottom:10px;
+    }
+
+    .photo-text{
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      white-space: nowrap;
     }
 
     input {
@@ -94,29 +112,22 @@
       from {top:100%; opacity:1;}
       to {top:-10%; opacity:0;}
     }
-
-    .lock {
-      font-size:18px;
-      color:#333;
-      background:white;
-      padding:20px;
-      border-radius:15px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.3);
-    }
   </style>
 </head>
 <body>
 
 <audio id="music" src="music.mp3"></audio>
 
-<div id="lock" class="lock"></div>
-
 <div class="envelope" id="env" onclick="openEnvelope()">
   💌 Tap to Open Invitation
 </div>
 
 <div class="card" id="card">
-  <img src="malini.jpg">
+  <div class="photo-box">
+    <img src="malini.jpg">
+    <div class="photo-text">Prakash ke taraf se chhota sa gift 🎁</div>
+  </div>
+
   <h2>Birthday Invitation 🎂</h2>
   <p>Enter your name</p>
   <input id="name" placeholder="Enter name">
@@ -126,16 +137,6 @@
 </div>
 
 <script>
-let today = new Date();
-let day = today.getDate();
-let month = today.getMonth()+1; // Feb = 2
-
-if(!(day===7 && month===2)){
-  document.getElementById("env").style.display="none";
-  document.getElementById("lock").innerHTML =
-    "⏳ This invitation will open on <b>7 February</b> only 🎂"//;
-}
-
 function openEnvelope(){
   document.getElementById("env").style.display="none";
   document.getElementById("card").style.display="block";
