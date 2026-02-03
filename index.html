@@ -1,81 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Birthday Surprise</title>
+  <title>Birthday Invitation</title>
   <style>
     body {
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      background: linear-gradient(135deg,#ff9a9e,#fad0c4);
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      width: 80%;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
-    h1 {
-      color: #ff4d6d;
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
+
+    .envelope {
+      width: 320px;
+      height: 220px;
       background: #ff4d6d;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      text-align: center;
       color: white;
-      font-size: 16px;
+      padding-top: 80px;
+      font-size: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
+
+    .card {
+      width: 320px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      display: none;
+      animation: openCard 1s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    @keyframes openCard {
+      from {transform: scale(0) rotateY(90deg);}
+      to {transform: scale(1) rotateY(0);}
+    }
+
+    img {
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid #ff4d6d;
+      margin-bottom:10px;
+    }
+
+    input {
+      padding:10px;
+      border-radius:20px;
+      border:none;
+      width:80%;
+      text-align:center;
+    }
+
+    button {
+      margin-top:10px;
+      padding:8px 20px;
+      border:none;
+      border-radius:20px;
+      background:#ff4d6d;
+      color:white;
+      font-size:16px;
+    }
+
     #msg {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #333;
-      min-height: 60px;
+      margin-top:10px;
+      font-size:16px;
+      min-height:80px;
     }
   </style>
 </head>
 <body>
 
-<div class="card">
-  <h1>🎁 Surprise Box</h1>
-  <p>Type your name to unlock 🎂</p>
-  <input id="name" placeholder="Enter your name">
+<div class="envelope" id="env" onclick="showInput()">
+  💌 Tap to Open Invitation
+</div>
+
+<div class="card" id="card">
+  <img src="malini.jpg">
+  <h2>Birthday Invitation 🎂</h2>
+  <p>Enter your name</p>
+  <input id="name" placeholder="Enter name">
   <br>
-  <button onclick="unlock()">Open</button>
+  <button onclick="openCard()">Open</button>
   <div id="msg"></div>
 </div>
 
 <script>
-function unlock() {
+function showInput(){
+  document.getElementById("env").style.display="none";
+  document.getElementById("card").style.display="block";
+}
+
+function openCard(){
   let name = document.getElementById("name").value.toLowerCase();
   let msg = document.getElementById("msg");
 
-  if(name === "malini saindane") {
-    let text = "🎂 Happy Birthday Malini Saindane 💖\n" +
-               "Aaj ka din sirf tumhare naam ✨\n" +
-               "Bhagwan kare tumhari life hamesha bright rahe 🌸\n" +
-               "Aur tum hamesha smile karti raho 😊\n\n" +
+  if(name==="malini saindane"){
+    let text = "🎂 Happy Birthday Malini Saindane 💖\n\n"+
+               "Aaj ka din sirf tumhare naam ✨\n"+
+               "Bhagwan kare tumhari life hamesha bright rahe 🌸\n"+
+               "Aur tum hamesha smile karti raho 😊\n\n"+
                "Have a beautiful day 🎉🎁";
-    msg.innerHTML = "";
-    let i = 0;
-    let interval = setInterval(() => {
-      msg.innerHTML += text.charAt(i).replace("\n","<br>");
+
+    msg.innerHTML="";
+    let i=0;
+    let t=setInterval(()=>{
+      msg.innerHTML+=text.charAt(i).replace("\n","<br>");
       i++;
-      if(i >= text.length) clearInterval(interval);
-    }, 60);
+      if(i>=text.length) clearInterval(t);
+    },50);
   } else {
-    msg.innerHTML = "😌 Ye surprise sirf Malini ke liye hai";
+    msg.innerHTML="😌 Ye invitation sirf Malini ke liye hai";
   }
 }
 </script>
