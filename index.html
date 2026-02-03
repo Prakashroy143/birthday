@@ -10,31 +10,40 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      overflow: hidden;
     }
 
     .envelope {
       width: 320px;
       height: 220px;
       background: #ff4d6d;
-      border-radius: 10px;
-      position: relative;
-      cursor: pointer;
+      border-radius: 12px;
       text-align: center;
       color: white;
       padding-top: 80px;
       font-size: 20px;
+      cursor: pointer;
       box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {transform: scale(1);}
+      50% {transform: scale(1.05);}
+      100% {transform: scale(1);}
     }
 
     .card {
-      width: 320px;
+      width: 340px;
       background: white;
-      border-radius: 15px;
+      border-radius: 18px;
       padding: 20px;
       text-align: center;
       display: none;
       animation: openCard 1s ease;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 10;
     }
 
     @keyframes openCard {
@@ -72,13 +81,37 @@
     #msg {
       margin-top:10px;
       font-size:16px;
-      min-height:80px;
+      min-height:90px;
+    }
+
+    .fire {
+      position: fixed;
+      font-size: 20px;
+      animation: float 3s linear forwards;
+    }
+
+    @keyframes float {
+      from {top:100%; opacity:1;}
+      to {top:-10%; opacity:0;}
+    }
+
+    .lock {
+      font-size:18px;
+      color:#333;
+      background:white;
+      padding:20px;
+      border-radius:15px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
 
-<div class="envelope" id="env" onclick="showInput()">
+<audio id="music" src="music.mp3"></audio>
+
+<div id="lock" class="lock"></div>
+
+<div class="envelope" id="env" onclick="openEnvelope()">
   💌 Tap to Open Invitation
 </div>
 
@@ -93,7 +126,17 @@
 </div>
 
 <script>
-function showInput(){
+let today = new Date();
+let day = today.getDate();
+let month = today.getMonth()+1; // Feb = 2
+
+if(!(day===7 && month===2)){
+  document.getElementById("env").style.display="none";
+  document.getElementById("lock").innerHTML =
+    "⏳ This invitation will open on <b>7 February</b> only 🎂"//;
+}
+
+function openEnvelope(){
   document.getElementById("env").style.display="none";
   document.getElementById("card").style.display="block";
 }
@@ -103,6 +146,8 @@ function openCard(){
   let msg = document.getElementById("msg");
 
   if(name==="malini saindane"){
+    document.getElementById("music").play();
+
     let text = "🎂 Happy Birthday Malini Saindane 💖\n\n"+
                "Aaj ka din sirf tumhare naam ✨\n"+
                "Bhagwan kare tumhari life hamesha bright rahe 🌸\n"+
@@ -116,9 +161,22 @@ function openCard(){
       i++;
       if(i>=text.length) clearInterval(t);
     },50);
+
+    fireworks();
   } else {
     msg.innerHTML="😌 Ye invitation sirf Malini ke liye hai";
   }
+}
+
+function fireworks(){
+  setInterval(()=>{
+    let f=document.createElement("div");
+    f.className="fire";
+    f.innerHTML="🎆";
+    f.style.left=Math.random()*100+"vw";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),3000);
+  },200);
 }
 </script>
 
